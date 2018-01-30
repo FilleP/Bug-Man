@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-
+    public float dashSpeed = 10.5f;
     public float speed = 5.5f;
     Vector3 movement;
     Rigidbody playerRigidbody;
@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     float camRayLength = 100f;
 
     public string respawnScene;
+    public string nextLevelScene;
 
     private void Awake()
     {
@@ -40,16 +41,28 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadScene(respawnScene);
         }
+        if (collision.gameObject.tag == "Goal")
+        {
+            Invoke("NextScene", 2);
+        }
     }
 
     void Move(float h, float v)
     {
         movement.Set(h, 0f, v);
-        movement = movement.normalized * speed * Time.deltaTime;
-        playerRigidbody.MovePosition(transform.position + movement);
-    }
+        if (Input.GetButtonDown("space"))
+        {
+            movement = movement.normalized * dashSpeed * Time.deltaTime;
+            playerRigidbody.MovePosition(transform.position + movement);
+        }
 
-    void Turning()
+        else
+        {
+            movement = movement.normalized * speed * Time.deltaTime;
+            playerRigidbody.MovePosition(transform.position + movement);
+        }
+    }
+        void Turning()
     {
         Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit floorHit;
@@ -61,5 +74,9 @@ public class PlayerController : MonoBehaviour
             Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
             playerRigidbody.MoveRotation(newRotation);
         }
+    }
+    void NextScene ()
+    {
+        SceneManager.LoadScene(nextLevelScene);
     }
 }

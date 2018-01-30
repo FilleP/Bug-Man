@@ -4,18 +4,18 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public float speed = 1f;
-    public float xEnd = 3f;
+    public float xEnd = 10f;
 
-    private float xStart;
+    private float zStart;
 
     private void Start()
     {
-        xStart = transform.position.x;
+        zStart = transform.position.z;
     }
 
     private void Update()
     {
-        transform.position = new Vector3(Mathf.PingPong(Time.time * speed, xEnd) + xStart, transform.position.y);
+        transform.position = new Vector3(Mathf.PingPong(Time.time * speed, xEnd) + zStart, transform.position.z);
 
     }
 
