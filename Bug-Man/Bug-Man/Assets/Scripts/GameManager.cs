@@ -12,8 +12,9 @@ public class GameManager : MonoBehaviour
 
     private Text levelText;
     private GameObject levelImage;
-    private int level = 0;
+    private int level = 1;
     private bool doingSetup;
+    private bool enemiesMoving;
 
     private void Awake()
     {
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+
+        InitGame();
     }
 
     private void OnLevelWasLoaded(int index)
@@ -53,14 +56,24 @@ public class GameManager : MonoBehaviour
         doingSetup = false;
     }
 
-    void Start()
+    public void GameOver()
     {
+        levelText.text = "Game Over " + "Level:" + level;
 
+        levelImage.SetActive(true);
+
+        enabled = false;
     }
-
 
     void Update()
     {
-
+        if (doingSetup)
+        {
+            return;
+        }
+        else
+        {
+            enemiesMoving = true;
+        }
     }
 }
